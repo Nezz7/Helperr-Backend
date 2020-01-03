@@ -174,3 +174,62 @@ Route::post('/user/helpme{id}/help',[
 ]);
 
 
+
+/*****************************  HELP SESSION FUNCTIONS FUNCTIONS (INTERRACTION)*/
+
+Route::get('/user/sessions/helpme',[
+    'middleware' => 'auth.jwt',
+    'uses' => 'HelpSessionController@getashelpee',
+]);
+
+Route::get('/user/sessions/helpyou',[
+    'middleware' => 'auth.jwt',
+    'uses' => 'HelpSessionController@getashelper',
+]);
+
+Route::get('/user/session{id}',[
+    'middleware' => 'auth.jwt',
+    'uses' => 'HelpSessionController@get',
+])->where('id', '[0-9]+');
+
+// form with attachements and "message" body
+Route::post('/user/session{id}/postmessage',[
+    'middleware' => 'auth.jwt',
+    'uses' => 'HelpSessionController@postmessage',
+])->where('id', '[0-9]+');
+
+Route::get('/user/session{id}/head{n}',[
+    'middleware' => 'auth.jwt',
+    'uses' => 'HelpSessionController@head',
+])->where(['id' => '[0-9]+', 'n'=>'[0-9]+']);
+
+Route::get('/user/session{id}/allmessages',[
+    'middleware' => 'auth.jwt',
+    'uses' => 'HelpSessionController@allmessages',
+])->where('id', '[0-9]+');
+
+Route::post('/user/session{id}/postmessage',[
+    'middleware' => 'auth.jwt',
+    'uses' => 'HelpSessionController@postmessage',
+])->where('id', '[0-9]+');
+
+Route::post('/user/session{id}/submitwork',[
+    'middleware' => 'auth.jwt',
+    'uses' => 'HelpSessionController@submitwork',
+])->where('id', '[0-9]+');
+
+
+Route::post('/user/session{id}/acceptwork',[
+    'middleware' => 'auth.jwt',
+    'uses' => 'HelpSessionController@acceptwork',
+])->where('id', '[0-9]+');
+
+Route::post('/user/session{id}/review',[
+    'middleware' => 'auth.jwt',
+    'uses' => 'HelpSessionController@submitreview',
+])->where('id', '[0-9]+');
+
+Route::get('/user/session{session_id}/download{message_id}',[
+    'middleware' => 'auth.jwt',
+    'uses' => 'SessionMessageController@download',
+])->where(['session_id' => '[0-9]+', 'message_id'=>'[0-9]+']);
